@@ -191,6 +191,12 @@
   <dependencies>
 
     <dependency>
+      <groupId>fish.payara.extras</groupId>
+      <artifactId>payara-micro</artifactId>
+      <version>4.1.153</version>
+    </dependency>
+
+    <dependency>
       <groupId>com.nablarch.configuration</groupId>
       <artifactId>nablarch-main-default-configuration</artifactId>
     </dependency>
@@ -376,20 +382,6 @@
         <configuration>
           <!-- MANIFEST.MFでClass-Pathを指定すると、依存jar内で定義されているtaglibのuriを正しく解決してくれない。 -->
           <useManifestOnlyJar>false</useManifestOnlyJar>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>net.unit8.waitt</groupId>
-        <artifactId>waitt-maven-plugin</artifactId>
-        <version>1.1.0</version>
-        <configuration>
-          <servers>
-            <server>
-              <groupId>net.unit8.waitt.server</groupId>
-              <artifactId>waitt-tomcat8</artifactId>
-              <version>0.1.0</version>
-            </server>
-          </servers>
         </configuration>
       </plugin>
       <!-- ================ここから任意で使用するツールの設定================ -->
