@@ -25,13 +25,13 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- gsp-dba-maven-pluginが使用するデータベース設定 -->
-    <nablarch.db.jdbcDriver>org.h2.Driver</nablarch.db.jdbcDriver>
-    <nablarch.db.url>jdbc:h2:./h2/db/nablarch_example</nablarch.db.url>
-    <nablarch.db.adminUser>SAMPLE</nablarch.db.adminUser>
-    <nablarch.db.adminPassword>SAMPLE</nablarch.db.adminPassword>
+    <nablarch.db.jdbcDriver>oracle.jdbc.OracleDriver</nablarch.db.jdbcDriver>
+    <nablarch.db.url>jdbc:oracle:thin:@localhost:1521/xe</nablarch.db.url>
+    <nablarch.db.adminUser>system</nablarch.db.adminUser>
+    <nablarch.db.adminPassword>oracle</nablarch.db.adminPassword>
     <nablarch.db.user>NABLARCH_EXAMPLE</nablarch.db.user>
     <nablarch.db.password>NABLARCH_EXAMPLE</nablarch.db.password>
-    <nablarch.db.schema>PUBLIC</nablarch.db.schema>
+    <nablarch.db.schema></nablarch.db.schema>
     <!-- gsp-dba-maven-pluginが読み込むファイルのパス -->
     <dba.erdFile>src/main/resources/entity/h2.edm</dba.erdFile>
     <dba.dataDirectory>src/test/resources/data/h2</dba.dataDirectory>
@@ -97,10 +97,9 @@
             <dependencies>
               <!-- プロジェクトで使用するDB製品にあわせたJDBCドライバに上書きする -->
               <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <version>1.4.192</version>
-                <scope>runtime</scope>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc6</artifactId>
+                <version>11.2.0.2.0</version>
               </dependency>
             </dependencies>
             <executions>
@@ -189,6 +188,13 @@
   </dependencyManagement>
 
   <dependencies>
+
+    <dependency>
+      <groupId>com.oracle</groupId>
+      <artifactId>ojdbc6</artifactId>
+      <version>11.2.0.2.0</version>
+      <scope>runtime</scope>
+    </dependency>
 
     <dependency>
       <groupId>com.nablarch.configuration</groupId>

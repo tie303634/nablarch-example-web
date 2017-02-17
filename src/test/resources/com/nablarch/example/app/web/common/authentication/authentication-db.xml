@@ -11,10 +11,10 @@
   <component name="connectionFactory" class="nablarch.core.db.connection.BasicDbConnectionFactoryForDataSource">
     <property name="dialect" ref="dialect" />
     <property name="dataSource">
-      <component class="org.h2.jdbcx.JdbcDataSource">
-        <property name="user" value="sa" />
-        <property name="password" value="" />
-        <property name="URL" value="jdbc:h2:~/nablarch_test" />
+      <component class="oracle.jdbc.pool.OracleDataSource">
+        <property name="user" value="NABLARCH_EXAMPLE" />
+        <property name="password" value="NABLARCH_EXAMPLE" />
+        <property name="URL" value="jdbc:oracle:thin:@192.168.160.124:1521/xe" />
       </component>
     </property>
   </component>
@@ -34,6 +34,10 @@
     <property name="connectionFactory" ref="connectionFactory" />
   </component>
   
-  <component name="daoContextFactory" class="nablarch.common.dao.BasicDaoContextFactory" />
+  <component name="daoContextFactory" class="nablarch.common.dao.BasicDaoContextFactory">
+    <property name="sequenceIdGenerator">
+      <component class="nablarch.common.idgenerator.SequenceIdGenerator"/>
+    </property>
+  </component>
   
 </component-configuration>
