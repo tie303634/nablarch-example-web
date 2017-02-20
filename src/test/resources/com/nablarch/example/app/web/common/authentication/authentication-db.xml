@@ -6,7 +6,9 @@
   <!-- プロダクション用の設定ファイルを読み込み -->
   <import file="web-component-configuration.xml"/>
 
-  <component name="transactionFactory" class="nablarch.core.db.transaction.JdbcTransactionFactory" />
+  <component name="transactionFactory" class="nablarch.core.db.transaction.JdbcTransactionFactory">
+    <property name="transactionTimeoutSec" value="0"/>
+  </component>
   <component class="nablarch.core.db.statement.exception.BasicSqlStatementExceptionFactory" />
   <component name="connectionFactory" class="nablarch.core.db.connection.BasicDbConnectionFactoryForDataSource">
     <property name="dialect" ref="dialect" />
