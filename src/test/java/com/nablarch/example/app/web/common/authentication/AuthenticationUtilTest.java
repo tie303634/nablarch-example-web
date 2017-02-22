@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nablarch.core.repository.di.DiContainer;
+import nablarch.core.repository.di.config.xml.XmlComponentDefinitionLoader;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -55,6 +57,17 @@ public class AuthenticationUtilTest {
                 };
             }
         });
+    }
+
+    @Test
+    public void testEncrypt() throws Exception {
+        XmlComponentDefinitionLoader loader = new XmlComponentDefinitionLoader("com/nablarch/example/app/web/common/authentication/passwordEncryptor.xml");
+        DiContainer container = new DiContainer(loader);
+        SystemRepository.load(container);
+
+        for(int i=0; i<1000; i++) {
+            System.out.println("\"" + (105 + i) + "\",\"" + (10000001 + i) + "\",\"" + AuthenticationUtil.encryptPassword(String.valueOf(105+i), "pass123-") + "\",\"0\",\"2017-04-10\",\"0\",\"2013-08-02\",\"2017-04-04\",\"\",\"1\"");
+        }
     }
 
     /**

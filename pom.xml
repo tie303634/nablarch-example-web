@@ -99,7 +99,7 @@
               <dependency>
                 <groupId>com.oracle</groupId>
                 <artifactId>ojdbc6</artifactId>
-                <version>11.2.0.2.0</version>
+                <version>11.2.0.4.0</version>
               </dependency>
             </dependencies>
             <executions>
@@ -167,10 +167,11 @@
     <profile>
       <id>production</id>
       <properties>
-        <envName>本番環境</envName>
-        <envDir>production</envDir>
-        <env.classifier>production</env.classifier>
+        <env.name>本番環境</env.name>
+        <env.dir>prod</env.dir>
+        <env.classifier>prod</env.classifier>
         <webxml.path>src/main/webapp/WEB-INF/web.xml</webxml.path>
+        <finalName>${project.artifactId}-${project.version}</finalName>
       </properties>
     </profile>
   </profiles>
@@ -192,7 +193,7 @@
     <dependency>
       <groupId>com.oracle</groupId>
       <artifactId>ojdbc6</artifactId>
-      <version>11.2.0.2.0</version>
+      <version>11.2.0.4.0</version>
       <scope>runtime</scope>
     </dependency>
 

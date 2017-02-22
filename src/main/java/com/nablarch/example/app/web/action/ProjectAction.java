@@ -204,7 +204,7 @@ public class ProjectAction {
 
         return UniversalDao
                 .page(searchCondition.getPageNumber())
-                .per(100L)
+                .per(50L)
                 .findAllBySqlFile(Project.class, "SEARCH_PROJECT", searchCondition);
     }
 
