@@ -1,21 +1,29 @@
 package com.nablarch.example.app.web.action;
 
-import com.nablarch.example.app.entity.Client;
-import com.nablarch.example.app.entity.Industry;
-import com.nablarch.example.app.entity.Project;
-import com.nablarch.example.app.web.dto.IndustryDto;
-import nablarch.common.dao.UniversalDao;
-import nablarch.test.core.db.DbAccessTestSupport;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.junit.Assert.assertThat;
 
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
+import com.nablarch.example.app.entity.Industry;
+import com.nablarch.example.app.web.dao.TestDao;
+import com.nablarch.example.app.web.dto.IndustryDto;
+import nablarch.core.repository.SystemRepository;
+import nablarch.core.repository.di.DiContainer;
+import nablarch.core.repository.di.config.xml.XmlComponentDefinitionLoader;
+import nablarch.integration.doma.DomaConfig;
+import nablarch.integration.doma.DomaDaoRepository;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.seasar.doma.jdbc.UtilLoggingJdbcLogger;
+import org.seasar.doma.jdbc.tx.LocalTransaction;
+import org.seasar.doma.jdbc.tx.LocalTransactionDataSource;
 
 /**
  * {@link IndustryAction}のテストクラス
@@ -25,27 +33,33 @@ public class IndustryActionTest {
     /** テスト対象 */
     private IndustryAction sut = new IndustryAction();
 
-    private DbAccessTestSupport transaction = new DbAccessTestSupport(getClass());
+    private static LocalTransaction transaction;
+
+    @BeforeClass
+    public static void setupClass() {
+        SystemRepository.load(new DiContainer(new XmlComponentDefinitionLoader("unit-test.xml")));
+        transaction = ((LocalTransactionDataSource) DomaConfig.singleton().getDataSource()).getLocalTransaction(new UtilLoggingJdbcLogger());
+    }
 
     @Before
     public void setup() {
-        transaction.beginTransactions();
+        transaction.begin();
 
-        UniversalDao.findAll(Project.class).forEach(UniversalDao::delete);
-        UniversalDao.findAll(Client.class).forEach(UniversalDao::delete);
-        UniversalDao.findAll(Industry.class).forEach(UniversalDao::delete);
+        DomaDaoRepository.get(TestDao.class).deleteAllProject();
+        DomaDaoRepository.get(TestDao.class).deleteAllClient();
+        DomaDaoRepository.get(TestDao.class).deleteAllIndustry();
 
         IntStream.range(0, 3).forEach(i -> {
             Industry entity = new Industry();
             entity.setIndustryCode("0" + i);
             entity.setIndustryName("name" + i);
-            UniversalDao.insert(entity);
+            DomaDaoRepository.get(TestDao.class).insert(entity);
         });
     }
 
     @After
     public void tearDown() {
-        transaction.endTransactions();
+        transaction.rollback();
     }
 
     @Test
